@@ -23,12 +23,21 @@ const App = () => {
   }, [todoUrl]);
 
   async function handleMarkAsComplete(item) {
+    const NewItem = {...item, isCompleted: !item?.isCompleted};
     try {
         await axios.put(
-        todoUrl + "/" + item.id, 
-        {...item, isCompleted: !item?.isCompleted}
+          todoUrl + "/" + item.id, 
+          NewItem
         )
-        getItems()
+        setItems(currentItems => {
+          return currentItems.map((todoItem) => {
+            if (todoItem.id === item.id) {
+              return {...todoItem, ...NewItem}
+            } 
+            
+            return todoItem;
+          })
+        })
         setApiError('');
     } catch (error) {
         setApiError(error.response.data);
@@ -51,11 +60,10 @@ const App = () => {
   async function getItems() {
     try {
       const response = await axios.get(todoUrl);
-      console.log(response);
       setItems(response.data);
       setApiError('');
     } catch (error) {
-      setApiError(error.response.data);
+      setApiError(error?.response?.data);
     }
   }
 
