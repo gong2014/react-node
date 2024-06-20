@@ -83,5 +83,5 @@ test('adds a new item to the list when Add Item button is clicked', async () => 
     });
   
     const itemList = screen.getAllByRole('row');
-    expect(itemList).toHaveLength(3); // 包含标题行
+    expect(itemList).toHaveLength(3);
 });
