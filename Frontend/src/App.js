@@ -1,113 +1,61 @@
 import './App.css';
-import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'react-bootstrap';
+import { Image, Alert, Container, Row, Col } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
-
-const axios = require('axios');
+import axios from 'axios';
+import { CreateItem } from './components/CreateItem';
+import { TodoList } from './components/TodoList';
 
 const App = () => {
   const [description, setDescription] = useState('');
   const [items, setItems] = useState([]);
+  const [apiError, setApiError] = useState('');
+
+  //actually host part need to move to .env file
+  const todoUrl = "http://localhost:7000/api/todoItems";
 
   useEffect(() => {
-    // todo
-  }, []);
+    axios.get(todoUrl)
+      .then(response => {
+        setItems(response.data);
+        setApiError('');
+      })
+      .catch(error => setApiError(error.response.data));
+  }, [todoUrl]);
 
-  const renderAddTodoItemContent = () => {
-    return (
-      <Container>
-        <h1>Add Item</h1>
-        <Form.Group as={Row} className="mb-3" controlId="formAddTodoItem">
-          <Form.Label column sm="2">
-            Description
-          </Form.Label>
-          <Col md="6">
-            <Form.Control
-              type="text"
-              placeholder="Enter description..."
-              value={description}
-              onChange={handleDescriptionChange}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-3 offset-md-2" controlId="formAddTodoItem">
-          <Stack direction="horizontal" gap={2}>
-            <Button variant="primary" onClick={() => handleAdd()}>
-              Add Item
-            </Button>
-            <Button variant="secondary" onClick={() => handleClear()}>
-              Clear
-            </Button>
-          </Stack>
-        </Form.Group>
-      </Container>
-    );
-  };
-
-  const renderTodoItemsContent = () => {
-    return (
-      <>
-        <h1>
-          Showing {items.length} Item(s){' '}
-          <Button variant="primary" className="pull-right" onClick={() => getItems()}>
-            Refresh
-          </Button>
-        </h1>
-
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Description</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.description}</td>
-                <td>
-                  <Button variant="warning" size="sm" onClick={() => handleMarkAsComplete(item)}>
-                    Mark as completed
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </>
-    );
-  };
-
-  const handleDescriptionChange = (event) => {
-    // todo
-  };
-
-  async function getItems() {
+  async function handleMarkAsComplete(item) {
     try {
-      alert('todo');
+        await axios.put(
+        todoUrl + "/" + item.id, 
+        {...item, isCompleted: !item?.isCompleted}
+        )
+        getItems()
+        setApiError('');
     } catch (error) {
-      console.error(error);
+        setApiError(error.response.data);
     }
   }
 
   async function handleAdd() {
     try {
-      alert('todo');
+        await axios.post(todoUrl, { description })
+        setDescription('')
+        setApiError('');
+
+        //it showing id in here but id is generate by node, I have to call api again to get value
+        getItems()
     } catch (error) {
-      console.error(error);
+        setApiError(error.response.data);
     }
   }
 
-  function handleClear() {
-    setDescription('');
-  }
-
-  async function handleMarkAsComplete(item) {
+  async function getItems() {
     try {
-      alert('todo');
+      const response = await axios.get(todoUrl);
+      console.log(response);
+      setItems(response.data);
+      setApiError('');
     } catch (error) {
-      console.error(error);
+      setApiError(error.response.data);
     }
   }
 
@@ -143,11 +91,26 @@ const App = () => {
           </Col>
         </Row>
         <Row>
-          <Col>{renderAddTodoItemContent()}</Col>
+          <Col>{apiError && <h3 style={{ color: 'red', backgroundColor: 'yellow' }}>{apiError}</h3>}</Col>
+        </Row>
+        <Row>
+          <Col>
+            <CreateItem 
+              description = {description} 
+              setDescription = {setDescription}
+              handleAdd = {handleAdd}
+            />
+          </Col>
         </Row>
         <br />
         <Row>
-          <Col>{renderTodoItemsContent()}</Col>
+          <Col>
+            <TodoList 
+              items={items}
+              getItems={getItems}
+              handleMarkAsComplete={handleMarkAsComplete}
+            />
+          </Col>
         </Row>
       </Container>
       <footer className="page-footer font-small teal pt-4">
