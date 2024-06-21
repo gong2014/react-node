@@ -1,7 +1,7 @@
 import { Button, Table } from 'react-bootstrap';
 import { TodoItem } from './TodoItem';
 
-export const TodoList = ({items, getItems, handleMarkAsComplete}) => {
+export const TodoList = ({items, loading, getItems, handleMarkAsComplete}) => {
     return (
       <>
         <h1>
@@ -20,13 +20,18 @@ export const TodoList = ({items, getItems, handleMarkAsComplete}) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-                <TodoItem 
-                    key={item.id}
-                    item={item}
-                    handleMarkAsComplete={handleMarkAsComplete}
-                />
-            ))}
+            {
+              loading ? (
+                <tr>Loading</tr>
+              ) : 
+              (items.map((item) => (
+                  <TodoItem 
+                      key={item.id}
+                      item={item}
+                      handleMarkAsComplete={handleMarkAsComplete}
+                  />
+              ))
+            )}
           </tbody>
         </Table>
       </>

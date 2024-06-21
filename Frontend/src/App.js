@@ -1,69 +1,48 @@
 import './App.css';
 import { Image, Alert, Container, Row, Col } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useReducer } from 'react';
 import { CreateItem } from './components/CreateItem';
 import { TodoList } from './components/TodoList';
+import { getItems, addItem, updateItem } from './api';
+import { ACTION_TYPE, initialState, reducer } from './stateManage';
 
 const App = () => {
   const [description, setDescription] = useState('');
-  const [items, setItems] = useState([]);
-  const [apiError, setApiError] = useState('');
 
-  //actually host part need to move to .env file
-  const todoUrl = "http://localhost:7000/api/todoItems";
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const fetchItems = async () => {
+    try {
+      const response = await getItems();
+      dispatch({type: ACTION_TYPE.FETCH_ALL, payload: response})
+    } catch (error) {
+      dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
+    }
+  }
 
   useEffect(() => {
-    axios.get(todoUrl)
-      .then(response => {
-        setItems(response.data);
-        setApiError('');
-      })
-      .catch(error => setApiError(error.response.data));
-  }, [todoUrl]);
+      fetchItems();
+  }, []);
 
   async function handleMarkAsComplete(item) {
     const NewItem = {...item, isCompleted: !item?.isCompleted};
     try {
-        await axios.put(
-          todoUrl + "/" + item.id, 
-          NewItem
-        )
-        setItems(currentItems => {
-          return currentItems.map((todoItem) => {
-            if (todoItem.id === item.id) {
-              return {...todoItem, ...NewItem}
-            } 
-            
-            return todoItem;
-          })
-        })
-        setApiError('');
+        await updateItem(NewItem);
+        dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: NewItem})
     } catch (error) {
-        setApiError(error.response.data);
+        dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
     }
   }
 
   async function handleAdd() {
     try {
-        await axios.post(todoUrl, { description })
-        setDescription('')
-        setApiError('');
-
-        //it showing id in here but id is generate by node, I have to call api again to get value
-        getItems()
+      const item = await addItem(description);
+      dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: item})
+      setDescription('')
+      //it showing id in here but id is generate by node, I have to call api again to get value
+      fetchItems()
     } catch (error) {
-        setApiError(error.response.data);
-    }
-  }
-
-  async function getItems() {
-    try {
-      const response = await axios.get(todoUrl);
-      setItems(response.data);
-      setApiError('');
-    } catch (error) {
-      setApiError(error?.response?.data);
+      dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
     }
   }
 
@@ -99,7 +78,7 @@ const App = () => {
           </Col>
         </Row>
         <Row>
-          <Col>{apiError && <h3 style={{ color: 'red', backgroundColor: 'yellow' }}>{apiError}</h3>}</Col>
+          <Col>{state.error && <h3 style={{ color: 'red', backgroundColor: 'yellow' }}>{state.error}</h3>}</Col>
         </Row>
         <Row>
           <Col>
@@ -114,8 +93,9 @@ const App = () => {
         <Row>
           <Col>
             <TodoList 
-              items={items}
-              getItems={getItems}
+              items={state.items}
+              loading = {state.loading}
+              getItems={fetchItems}
               handleMarkAsComplete={handleMarkAsComplete}
             />
           </Col>
