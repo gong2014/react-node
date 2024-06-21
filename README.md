@@ -2,6 +2,9 @@
 I actually create a pull request for it but the git I original use can't find in public.
 So I move the code to this git account. 
 In this case you can only see my changes but can't see my pull request and commit any more.
+I have created a pull request if you want check the changes you can check over there.
+
+I just updated code using hook useReducer to manage the state. I think it may not necessary to apply useContext. Of course if you want me do that, I can add it. 
 
 I haven't touch any backend code as it is a front end focus.
 
