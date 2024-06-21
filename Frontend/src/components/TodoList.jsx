@@ -22,7 +22,9 @@ export const TodoList = ({items, loading, getItems, handleMarkAsComplete}) => {
           <tbody>
             {
               loading ? (
-                <tr>Loading</tr>
+                <tr>
+                  <td>Loading</td>
+                </tr>
               ) : 
               (items.map((item) => (
                   <TodoItem 

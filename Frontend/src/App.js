@@ -1,13 +1,12 @@
 import './App.css';
 import { Image, Alert, Container, Row, Col } from 'react-bootstrap';
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { CreateItem } from './components/CreateItem';
 import { TodoList } from './components/TodoList';
 import { getItems, addItem, updateItem } from './api';
 import { ACTION_TYPE, initialState, reducer } from './stateManage';
 
 const App = () => {
-  const [description, setDescription] = useState('');
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -34,11 +33,10 @@ const App = () => {
     }
   }
 
-  async function handleAdd() {
+  async function handleAdd(description) {
     try {
       const item = await addItem(description);
       dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: item})
-      setDescription('')
       //it showing id in here but id is generate by node, I have to call api again to get value
       fetchItems()
     } catch (error) {
@@ -83,8 +81,6 @@ const App = () => {
         <Row>
           <Col>
             <CreateItem 
-              description = {description} 
-              setDescription = {setDescription}
               handleAdd = {handleAdd}
             />
           </Col>
