@@ -1,46 +1,113 @@
 import './App.css';
-import { Image, Alert, Container, Row, Col } from 'react-bootstrap';
-import React, { useEffect, useReducer } from 'react';
-import { CreateItem } from './components/CreateItem';
-import { TodoList } from './components/TodoList';
-import { getItems, addItem, updateItem } from './api';
-import { ACTION_TYPE, initialState, reducer } from './stateManage';
+import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+
+const axios = require('axios');
 
 const App = () => {
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const fetchItems = async () => {
-    try {
-      const response = await getItems();
-      dispatch({type: ACTION_TYPE.FETCH_ALL, payload: response})
-    } catch (error) {
-      dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
-    }
-  }
+  const [description, setDescription] = useState('');
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
-      fetchItems();
+    // todo
   }, []);
 
-  async function handleMarkAsComplete(item) {
-    const NewItem = {...item, isCompleted: !item?.isCompleted};
+  const renderAddTodoItemContent = () => {
+    return (
+      <Container>
+        <h1>Add Item</h1>
+        <Form.Group as={Row} className="mb-3" controlId="formAddTodoItem">
+          <Form.Label column sm="2">
+            Description
+          </Form.Label>
+          <Col md="6">
+            <Form.Control
+              type="text"
+              placeholder="Enter description..."
+              value={description}
+              onChange={handleDescriptionChange}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3 offset-md-2" controlId="formAddTodoItem">
+          <Stack direction="horizontal" gap={2}>
+            <Button variant="primary" onClick={() => handleAdd()}>
+              Add Item
+            </Button>
+            <Button variant="secondary" onClick={() => handleClear()}>
+              Clear
+            </Button>
+          </Stack>
+        </Form.Group>
+      </Container>
+    );
+  };
+
+  const renderTodoItemsContent = () => {
+    return (
+      <>
+        <h1>
+          Showing {items.length} Item(s){' '}
+          <Button variant="primary" className="pull-right" onClick={() => getItems()}>
+            Refresh
+          </Button>
+        </h1>
+
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.description}</td>
+                <td>
+                  <Button variant="warning" size="sm" onClick={() => handleMarkAsComplete(item)}>
+                    Mark as completed
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </>
+    );
+  };
+
+  const handleDescriptionChange = (event) => {
+    // todo
+  };
+
+  async function getItems() {
     try {
-        await updateItem(NewItem);
-        dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: NewItem})
+      alert('todo');
     } catch (error) {
-        dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
+      console.error(error);
     }
   }
 
-  async function handleAdd(description) {
+  async function handleAdd() {
     try {
-      const item = await addItem(description);
-      dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: item})
-      //it showing id in here but id is generate by node, I have to call api again to get value
-      fetchItems()
+      alert('todo');
     } catch (error) {
-      dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
+      console.error(error);
+    }
+  }
+
+  function handleClear() {
+    setDescription('');
+  }
+
+  async function handleMarkAsComplete(item) {
+    try {
+      alert('todo');
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -76,25 +143,11 @@ const App = () => {
           </Col>
         </Row>
         <Row>
-          <Col>{state.error && <h3 style={{ color: 'red', backgroundColor: 'yellow' }}>{state.error}</h3>}</Col>
-        </Row>
-        <Row>
-          <Col>
-            <CreateItem 
-              handleAdd = {handleAdd}
-            />
-          </Col>
+          <Col>{renderAddTodoItemContent()}</Col>
         </Row>
         <br />
         <Row>
-          <Col>
-            <TodoList 
-              items={state.items}
-              loading = {state.loading}
-              getItems={fetchItems}
-              handleMarkAsComplete={handleMarkAsComplete}
-            />
-          </Col>
+          <Col>{renderTodoItemsContent()}</Col>
         </Row>
       </Container>
       <footer className="page-footer font-small teal pt-4">
