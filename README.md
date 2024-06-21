@@ -1,10 +1,3 @@
-## Notice
-I actually create a pull request for it but the git I original use can't find in public.
-So I move the code to this git account. 
-In this case you can only see my changes but can't see my pull request and commit any more.
-
-I haven't touch any backend code as it is a front end focus.
-
 # Developer Assessment
 
 This repository contains code used in the interview process for developers joining the Front-end Practice at ClearPoint.
