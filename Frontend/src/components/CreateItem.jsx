@@ -13,6 +13,11 @@ export const CreateItem = ({handleAdd}) => {
         setDescription(event.target.value);
     };
 
+    const handleAddButton = (description) => {
+        handleAdd(description);
+        setDescription('');
+    } 
+
     return (
         <Container>
         
@@ -32,7 +37,7 @@ export const CreateItem = ({handleAdd}) => {
         </Form.Group>
         <Form.Group as={Row} className="mb-3 offset-md-2" controlId="formAddTodoItem">
             <Stack direction="horizontal" gap={2}>
-            <Button variant="primary" onClick={() => handleAdd(description)}>
+            <Button variant="primary" onClick={() => handleAddButton(description)}>
                 Add Item
             </Button>
             <Button variant="secondary" onClick={() => handleClear()}>
