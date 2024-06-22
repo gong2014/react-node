@@ -36,9 +36,7 @@ const App = () => {
   async function handleAdd(description) {
     try {
       const item = await addItem(description);
-      dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: item})
-      //it showing id in here but id is generate by node, I have to call api again to get value
-      fetchItems()
+      dispatch({type: ACTION_TYPE.ADD_ITEM, payload: item})
     } catch (error) {
       dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
     }
