@@ -7,38 +7,37 @@ import { getItems, addItem, updateItem } from './api';
 import { ACTION_TYPE, initialState, reducer } from './stateManage';
 
 const App = () => {
-
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchItems = async () => {
     try {
       const response = await getItems();
-      dispatch({type: ACTION_TYPE.FETCH_ALL, payload: response})
+      dispatch({ type: ACTION_TYPE.FETCH_ALL, payload: response });
     } catch (error) {
-      dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
+      dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
     }
-  }
+  };
 
   useEffect(() => {
-      fetchItems();
+    fetchItems();
   }, []);
 
   async function handleMarkAsComplete(item) {
-    const NewItem = {...item, isCompleted: !item?.isCompleted};
+    const NewItem = { ...item, isCompleted: !item?.isCompleted };
     try {
-        await updateItem(NewItem);
-        dispatch({type: ACTION_TYPE.UPDATE_ITEM, payload: NewItem})
+      await updateItem(NewItem);
+      dispatch({ type: ACTION_TYPE.UPDATE_ITEM, payload: NewItem });
     } catch (error) {
-        dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
+      dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
     }
   }
 
   async function handleAdd(description) {
     try {
       const item = await addItem(description);
-      dispatch({type: ACTION_TYPE.ADD_ITEM, payload: item})
+      dispatch({ type: ACTION_TYPE.ADD_ITEM, payload: item });
     } catch (error) {
-      dispatch({type: ACTION_TYPE.FETCH_ERROR, payload: error.message})
+      dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
     }
   }
 
@@ -78,17 +77,15 @@ const App = () => {
         </Row>
         <Row>
           <Col>
-            <CreateItem 
-              handleAdd = {handleAdd}
-            />
+            <CreateItem handleAdd={handleAdd} />
           </Col>
         </Row>
         <br />
         <Row>
           <Col>
-            <TodoList 
+            <TodoList
               items={state.items}
-              loading = {state.loading}
+              loading={state.loading}
               getItems={fetchItems}
               handleMarkAsComplete={handleMarkAsComplete}
             />

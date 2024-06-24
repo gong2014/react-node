@@ -7,5 +7,3 @@ test('renders the footer text', () => {
   const footerElement = screen.getByText(/clearpoint.digital/i);
   expect(footerElement).toBeInTheDocument();
 });
-
-

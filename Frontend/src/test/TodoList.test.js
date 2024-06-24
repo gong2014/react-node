@@ -13,40 +13,22 @@ const mockHandleMarkAsComplete = jest.fn();
 
 describe('TodoList Component', () => {
   test('displays the correct number of items', () => {
-    render(
-      <TodoList
-        items={items}
-        getItems={mockGetItems}
-        handleMarkAsComplete={mockHandleMarkAsComplete}
-      />
-    );
+    render(<TodoList items={items} getItems={mockGetItems} handleMarkAsComplete={mockHandleMarkAsComplete} />);
     expect(screen.getByText('des1')).toBeInTheDocument();
     expect(screen.getByText('des2')).toBeInTheDocument();
   });
 
   test('calls getItems function when Refresh button is clicked', () => {
-    render(
-      <TodoList
-        items={items}
-        getItems={mockGetItems}
-        handleMarkAsComplete={mockHandleMarkAsComplete}
-      />
-    );
+    render(<TodoList items={items} getItems={mockGetItems} handleMarkAsComplete={mockHandleMarkAsComplete} />);
     const refreshButton = screen.getByText('Refresh');
     fireEvent.click(refreshButton);
     expect(mockGetItems).toHaveBeenCalled();
   });
 
   test('calls handleMarkAsComplete when TodoItem button is clicked', () => {
-    render(
-      <TodoList
-        items={items}
-        getItems={mockGetItems}
-        handleMarkAsComplete={mockHandleMarkAsComplete}
-      />
-    );
+    render(<TodoList items={items} getItems={mockGetItems} handleMarkAsComplete={mockHandleMarkAsComplete} />);
     const markAsCompleteButtons = screen.getAllByText(/Mark as/i);
-    markAsCompleteButtons.forEach(button => {
+    markAsCompleteButtons.forEach((button) => {
       fireEvent.click(button);
     });
     expect(mockHandleMarkAsComplete).toHaveBeenCalledTimes(items.length);
