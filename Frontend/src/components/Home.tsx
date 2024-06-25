@@ -1,11 +1,16 @@
 import { addItem, getItems, updateItem } from '../api';
+<<<<<<< HEAD
 import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+=======
+import React, { useEffect, useReducer } from 'react';
+>>>>>>> 55bb943 (add route)
 import { Image, Container, Row, Col } from 'react-bootstrap';
 import { initialState, reducer } from '../stateManage';
 import { ActionType, Item } from '../types/todoListType';
 import { CreateItem } from './CreateItem';
 import { TodoList } from './TodoList';
 
+<<<<<<< HEAD
 export const useDebounce = (value: string, delay: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {
@@ -19,6 +24,8 @@ export const useDebounce = (value: string, delay: number) => {
   return debounceValue;
 };
 
+=======
+>>>>>>> 55bb943 (add route)
 export const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -50,6 +57,7 @@ export const Home = () => {
     }
   }
 
+<<<<<<< HEAD
   const [value, setValue] = useState({
     name: '',
     selected: true,
@@ -111,6 +119,48 @@ export const Home = () => {
         getItems={fetchItems}
         handleMarkAsComplete={handleMarkAsComplete}
       />
+=======
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  return (
+    <div className="App">
+      <Container>
+        <Row>
+          <Col>
+            <Image src="clearPointLogo.png" fluid rounded />
+          </Col>
+        </Row>
+        <Row>
+          <Col>{state.error && <h3 style={{ color: 'red', backgroundColor: 'yellow' }}>{state.error}</h3>}</Col>
+        </Row>
+        <Row>
+          <Col>
+            <CreateItem handleAdd={handleAdd} />
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col>
+            <TodoList
+              items={state.items}
+              loading={state.loading}
+              getItems={fetchItems}
+              handleMarkAsComplete={handleMarkAsComplete}
+            />
+          </Col>
+        </Row>
+      </Container>
+      <footer className="page-footer font-small teal pt-4">
+        <div className="footer-copyright text-center py-3">
+          © 2021 Copyright:
+          <a href="https://clearpoint.digital" target="_blank" rel="noreferrer">
+            clearpoint.digital
+          </a>
+        </div>
+      </footer>
+>>>>>>> 55bb943 (add route)
     </div>
   );
 };
