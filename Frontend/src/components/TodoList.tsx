@@ -1,7 +1,16 @@
 import { Button, Table } from 'react-bootstrap';
 import { TodoItem } from './TodoItem';
+import React from 'react';
+import { Item } from 'types/todoListType';
 
-export const TodoList = ({ items, loading, getItems, handleMarkAsComplete }) => {
+type TodoListProps = {
+  items: Item[];
+  loading: boolean;
+  getItems: () => void;
+  handleMarkAsComplete: (item: Item) => void;
+};
+
+export const TodoList = ({ items, loading, getItems, handleMarkAsComplete }: TodoListProps) => {
   return (
     <>
       <h1>

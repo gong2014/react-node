@@ -1,6 +1,13 @@
+import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Item } from 'types/todoListType';
 
-export const TodoItem = ({ item, handleMarkAsComplete }) => (
+type TodoItemProps = {
+  item: Item;
+  handleMarkAsComplete: (item: Item) => void;
+};
+
+export const TodoItem = ({ item, handleMarkAsComplete }: TodoItemProps) => (
   <tr key={item.id}>
     <td>{item.id}</td>
     <td>{item.description}</td>

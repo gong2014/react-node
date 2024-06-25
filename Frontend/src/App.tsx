@@ -4,7 +4,8 @@ import React, { useEffect, useReducer } from 'react';
 import { CreateItem } from './components/CreateItem';
 import { TodoList } from './components/TodoList';
 import { getItems, addItem, updateItem } from './api';
-import { ACTION_TYPE, initialState, reducer } from './stateManage';
+import { initialState, reducer } from './stateManage';
+import { ActionType, Item } from './types/todoListType';
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -12,9 +13,9 @@ const App = () => {
   const fetchItems = async () => {
     try {
       const response = await getItems();
-      dispatch({ type: ACTION_TYPE.FETCH_ALL, payload: response });
-    } catch (error) {
-      dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
+      dispatch({ type: ActionType.FETCH_ALL, payload: response });
+    } catch (error: any) {
+      dispatch({ type: ActionType.FETCH_ERROR, payload: error.message });
     }
   };
 
@@ -22,22 +23,22 @@ const App = () => {
     fetchItems();
   }, []);
 
-  async function handleMarkAsComplete(item) {
+  async function handleMarkAsComplete(item: Item) {
     const NewItem = { ...item, isCompleted: !item?.isCompleted };
     try {
       await updateItem(NewItem);
-      dispatch({ type: ACTION_TYPE.UPDATE_ITEM, payload: NewItem });
-    } catch (error) {
-      dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
+      dispatch({ type: ActionType.UPDATE_ITEM, payload: NewItem });
+    } catch (error: any) {
+      dispatch({ type: ActionType.FETCH_ERROR, payload: error.message });
     }
   }
 
-  async function handleAdd(description) {
+  async function handleAdd(description: string) {
     try {
       const item = await addItem(description);
-      dispatch({ type: ACTION_TYPE.ADD_ITEM, payload: item });
-    } catch (error) {
-      dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
+      dispatch({ type: ActionType.ADD_ITEM, payload: item });
+    } catch (error: any) {
+      dispatch({ type: ActionType.FETCH_ERROR, payload: error.message });
     }
   }
 
