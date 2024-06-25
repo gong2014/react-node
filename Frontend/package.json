@@ -4,14 +4,14 @@
   "private": true,
   "author": "ClearPoint",
   "engines": {
-    "node": "=16.19.0 <17"
+    "node": ">=20.9.0"
   },
   "dependencies": {
-    "axios": "^1.2.2",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.7.0",
-    "react-dom": "^18.2.0",
-    "web-vitals": "^3.1.1"
+    "axios": "^1.7.2",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.3",
+    "react-dom": "^18.3.1",
+    "web-vitals": "^4.2.0"
   },
   "overrides": {
     "make-fetch-happen": "11.0.0",
@@ -43,16 +43,16 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20.14.8",
     "@types/react": "^18.3.3",
-    "bootstrap": "^5.2.3",
+    "bootstrap": "^5.3.3",
     "cross-env": "^7.0.3",
-    "prettier": "^2.8.2",
+    "prettier": "^3.3.2",
     "react-scripts": "^5.0.1",
-    "sass": "^1.57.1",
+    "sass": "^1.77.6",
     "typescript": "^5.5.2"
   },
   "jest": {

@@ -1,5 +1,5 @@
-import { Item } from 'types/todoListType';
-import { Action, ReducerState, ActionType } from 'types/todoListType';
+import { Item } from './types/todoListType';
+import { Action, ReducerState, ActionType } from './types/todoListType';
 
 export const initialState: ReducerState = {
   items: [],
