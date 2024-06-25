@@ -1,38 +1,34 @@
-export const initialState = {
+import { Item } from 'types/todoListType';
+import { Action, ReducerState, ActionType } from 'types/todoListType';
+
+export const initialState: ReducerState = {
   items: [],
   loading: true,
   error: '',
 };
 
-export const ACTION_TYPE = {
-  FETCH_ALL: 'FETCH_ALL',
-  FETCH_ERROR: 'FETCH_ERROR',
-  ADD_ITEM: 'ADD_ITEM',
-  UPDATE_ITEM: 'UPDATE_ITEM',
-};
-
-export function reducer(state, action) {
+export function reducer(state: ReducerState, action: Action): ReducerState {
   switch (action.type) {
-    case ACTION_TYPE.FETCH_ALL:
+    case ActionType.FETCH_ALL:
       return {
         ...state,
         items: action.payload,
         error: '',
         loading: false,
       };
-    case ACTION_TYPE.ADD_ITEM:
+    case ActionType.ADD_ITEM:
       return {
         ...state,
         items: [...state.items, action.payload],
         error: '',
       };
-    case ACTION_TYPE.UPDATE_ITEM:
+    case ActionType.UPDATE_ITEM:
       return {
         ...state,
-        items: state.items.map((item) => (item.id === action.payload.id ? action.payload : item)),
+        items: state.items.map((item: Item) => (item.id === action.payload.id ? action.payload : item)),
         error: '',
       };
-    case ACTION_TYPE.FETCH_ERROR:
+    case ActionType.FETCH_ERROR:
       return {
         ...state,
         loading: false,
