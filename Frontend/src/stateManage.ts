@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Item } from './types/todoListType';
 import { Action, ReducerState, ActionType } from './types/todoListType';
+=======
+import { Item } from 'types/todoListType';
+import { Action, ReducerState, ActionType } from 'types/todoListType';
+>>>>>>> 96bba23 (convert to typescript)
 
 export const initialState: ReducerState = {
   items: [],
