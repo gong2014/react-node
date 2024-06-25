@@ -1,6 +1,6 @@
 import './App.css';
 import { Image, Alert, Container, Row, Col } from 'react-bootstrap';
-import React, { useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import { CreateItem } from './components/CreateItem';
 import { TodoList } from './components/TodoList';
 import { getItems, addItem, updateItem } from './api';
@@ -9,20 +9,20 @@ import { ACTION_TYPE, initialState, reducer } from './stateManage';
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       const response = await getItems();
       dispatch({ type: ACTION_TYPE.FETCH_ALL, payload: response });
     } catch (error) {
       dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [fetchItems]);
 
-  async function handleMarkAsComplete(item) {
+  const handleMarkAsComplete = useCallback(async (item) => {
     const NewItem = { ...item, isCompleted: !item?.isCompleted };
     try {
       await updateItem(NewItem);
@@ -30,16 +30,16 @@ const App = () => {
     } catch (error) {
       dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
     }
-  }
+  }, []);
 
-  async function handleAdd(description) {
+  const handleAdd = useCallback(async (description) => {
     try {
       const item = await addItem(description);
       dispatch({ type: ACTION_TYPE.ADD_ITEM, payload: item });
     } catch (error) {
       dispatch({ type: ACTION_TYPE.FETCH_ERROR, payload: error.message });
     }
-  }
+  }, []);
 
   return (
     <div className="App">
