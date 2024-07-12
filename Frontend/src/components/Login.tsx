@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import React from 'react';
 import { FaUser } from 'react-icons/fa';
@@ -41,10 +40,4 @@ export const Login = () => {
       </Formik>
     </div>
   );
-=======
-import React from 'react';
-
-export const Login = () => {
-  return <div>Login</div>;
->>>>>>> 55bb943 (add route)
 };
