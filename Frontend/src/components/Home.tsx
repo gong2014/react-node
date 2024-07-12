@@ -1,16 +1,17 @@
 import { addItem, getItems, updateItem } from '../api';
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { initialState, reducer } from '../stateManage';
 import { ActionType, Item } from '../types/todoListType';
 import { TodoList } from './TodoList';
 import { CreateItem } from './CreateItem';
+import axios, { CancelTokenSource } from 'axios';
 
 export const Home = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchItems = async () => {
+  const fetchItems = async (source: CancelTokenSource | null) => {
     try {
-      const response = await getItems();
+      const response = await getItems(source);
       dispatch({ type: ActionType.FETCH_ALL, payload: response });
     } catch (error: any) {
       dispatch({ type: ActionType.FETCH_ERROR, payload: error.message });
@@ -36,22 +37,23 @@ export const Home = () => {
     }
   }
 
-  const [number, setNumber] = useState(0);
-  const addNumber = () => {
-    setNumber((pre) => pre + 1);
-    setNumber((pre) => pre + 1);
-    console.log(number);
-  };
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    fetchItems(source);
+    return () => {
+      source.cancel('operation cancel');
+    };
+  }, []);
 
   return (
     <div className="home">
-      <CreateItem handleAdd={handleAdd}/>
+      <CreateItem handleAdd={handleAdd} />
       <TodoList
         items={state.items}
         loading={state.loading}
-        getItems={fetchItems}
+        getItems={() => fetchItems(null)}
         handleMarkAsComplete={handleMarkAsComplete}
       />
-      </div>
-  )
+    </div>
+  );
 };

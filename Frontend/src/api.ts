@@ -1,11 +1,12 @@
-import axios from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import { Item } from 'types/todoListType';
 
 //actually host part need to move to .env file
 const todoUrl = 'http://localhost:7000/api/todoItems';
 
-export const getItems = async () => {
-  const response = await axios.get(todoUrl);
+export const getItems = async (source: CancelTokenSource | null) => {
+  const obj = source ? { cancelToken: source.token } : {};
+  const response = await axios.get(todoUrl, obj);
   return response.data;
 };
 
