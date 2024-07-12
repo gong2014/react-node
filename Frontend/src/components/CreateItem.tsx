@@ -1,18 +1,22 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Row, Col, Form, Stack } from 'react-bootstrap';
 
-export const CreateItem = ({ handleAdd }) => {
+type CreateItemProps = {
+  handleAdd: (description: string) => void;
+};
+
+export const CreateItem = ({ handleAdd }: CreateItemProps) => {
   const [description, setDescription] = useState('');
 
   function handleClear() {
     setDescription('');
   }
 
-  const handleDescriptionChange = (event) => {
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
   };
 
-  const handleAddButton = (description) => {
+  const handleAddButton = (description: string) => {
     handleAdd(description);
     setDescription('');
   };
