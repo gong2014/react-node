@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { todoItemRouter } from "./routes";
+import { todoItemRouter, authRouter } from "./routes";
 
 export const getApp = () => {
   const app = express();
@@ -10,5 +10,6 @@ export const getApp = () => {
   app.use(cors());
   app.use(express.json());
   app.use("/api/todoItems", todoItemRouter);
+  app.use("api/auth", authRouter);
   return app;
 };
