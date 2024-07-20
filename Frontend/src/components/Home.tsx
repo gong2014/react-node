@@ -19,7 +19,7 @@ export const Home = () => {
   };
 
   async function handleMarkAsComplete(item: Item) {
-    const NewItem = { ...item, isCompleted: !item?.isCompleted };
+    const NewItem = { ...item, isCompleted: !item.isCompleted };
     try {
       await updateItem(NewItem);
       dispatch({ type: ActionType.UPDATE_ITEM, payload: NewItem });
