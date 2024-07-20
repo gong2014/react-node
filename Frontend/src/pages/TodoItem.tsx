@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Item } from 'types/todoListType';
+import { Item } from 'src/types/todoListType';
 
 type TodoItemProps = {
   item: Item;

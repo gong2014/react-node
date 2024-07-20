@@ -1,7 +1,7 @@
 import { Button, Table } from 'react-bootstrap';
 import { TodoItem } from './TodoItem';
 import React from 'react';
-import { Item } from 'types/todoListType';
+import { Item } from 'src/types/todoListType';
 
 type TodoListProps = {
   items: Item[];

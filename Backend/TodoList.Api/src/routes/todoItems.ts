@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import ShortUniqueId from "short-unique-id";
-import { BaseTodoItem, TodoItem, TodoItems } from "../models/todoItems";
+import { BaseTodoItem, TodoItem, TodoItems } from "../type/todoItems";
 
 export const todoItemRouter = express.Router();
 

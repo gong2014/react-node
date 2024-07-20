@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { CreateItem } from '../components/CreateItem';
+import { CreateItem } from '../pages/CreateItem';
 import App from '../App';
 import axios from 'axios';
 

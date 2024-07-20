@@ -2,10 +2,10 @@ import './App.css';
 
 import React from 'react';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Home } from './components/Home';
-import { Login } from './components/Login';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
 import styled from 'styled-components';
-import Drag from './components/Drag';
+import SignUp from './pages/SignUp';
 
 const NavLink = styled(Link)`
   margin-right: 10px;
@@ -16,16 +16,14 @@ const App = () => {
       <NavLink to="/" className="link">
         Home
       </NavLink>
+      <NavLink to="/sign-up">Sign Up</NavLink>
       <NavLink to="/login" className="link">
-        login
-      </NavLink>
-      <NavLink to="/drag" className="link">
-        drag
+        Log In
       </NavLink>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/drag" element={<Drag />} />
+        <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </Router>
   );

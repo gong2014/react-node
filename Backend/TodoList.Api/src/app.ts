@@ -10,6 +10,6 @@ export const getApp = () => {
   app.use(cors());
   app.use(express.json());
   app.use("/api/todoItems", todoItemRouter);
-  app.use("api/auth", authRouter);
+  app.use("/auth", authRouter);
   return app;
 };

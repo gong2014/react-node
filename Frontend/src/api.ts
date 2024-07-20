@@ -1,5 +1,5 @@
 import axios, { CancelTokenSource } from 'axios';
-import { Item } from 'types/todoListType';
+import { Item } from 'src/types/todoListType';
 
 //actually host part need to move to .env file
 const todoUrl = 'http://localhost:7000/api/todoItems';
