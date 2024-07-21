@@ -1,7 +1,7 @@
-import { Field, Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import { Form, Formik } from 'formik';
+import React from 'react';
 import Container from 'src/components/Container';
-import StyledField from 'src/components/StyledField';
+import { StyledField } from 'src/components/StyledFormik';
 
 type FormValueType = {
   email: string;

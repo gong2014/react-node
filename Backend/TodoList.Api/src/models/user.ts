@@ -1,14 +1,31 @@
-import prisma from "src/utils/dbService";
+import prisma, { handlePrismaErrorMessage } from "../utils/dbService";
 
 export type UserSchema = {
   email: string;
   password: string;
 };
 
-export const createUser = (data: UserSchema) =>
-  prisma.user.create({
-    data: {
-      email: "123",
-      password: "123",
-    },
-  });
+type createUserResponse = {
+  success: boolean;
+  error?: string;
+};
+
+export type createUserFunction = (
+  userInfo: UserSchema
+) => Promise<createUserResponse>;
+
+export const createUser = async (
+  userInfo: UserSchema
+): Promise<createUserResponse> => {
+  try {
+    await prisma.user.create({
+      data: {
+        email: userInfo.email,
+        password: userInfo.password,
+      },
+    });
+    return { success: true };
+  } catch (e) {
+    return handlePrismaErrorMessage(e);
+  }
+};
